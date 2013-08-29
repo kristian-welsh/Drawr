@@ -43,7 +43,7 @@
 			_instance.mouseUp(100, 100);
 			var bmdAfterMouseUp:BitmapData = toBitmapData(_instance.art);
 			
-			assertTrue("returned art after mouseDown, mouseMove, then mouseUp isn't empty", hasContent(bmdAfterMouseUp));
+			assertTrue("returned art after mouseDown, mouseMove, then mouseUp isn't empty", hasContent(_instance.art));
 			assertFalse("art while drawing and art after drawn aren't the same", haveIdenticalBitmapData(bmdBeforeMouseUp, bmdAfterMouseUp));
 		}
 		

@@ -6,14 +6,10 @@
 	import tools.*;
 	
 	public class DrawrTest extends TestCase {
-		private var _instance:Drawr;
+		private var _instance:Drawr = new Drawr();
 		
 		public function DrawrTest(testMethod:String):void {
 			super(testMethod);
-		}
-		
-		protected override function setUp():void {
-			_instance = new Drawr();
 		}
 		
 		public function testOnToolbarSelect():void {

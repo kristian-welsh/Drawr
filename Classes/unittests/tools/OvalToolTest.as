@@ -22,10 +22,10 @@
 			var comparison1:BitmapData = new BitmapData(500, 500);
 			comparison1.draw(input);
 			var comparison2:BitmapData = new BitmapData(500, 500);
-			return !haveIdenticalBitmapData(comparison1, comparison2);
+			return !areIdentical(comparison1, comparison2);
 		}
 		
-		private function haveIdenticalBitmapData(input1:BitmapData, input2:BitmapData):Boolean {
+		private function areIdentical(input1:BitmapData, input2:BitmapData):Boolean {
 			return input1.compare(input2) == 0;
 		}
 		
@@ -43,8 +43,8 @@
 			_instance.mouseUp(100, 100);
 			var bmdAfterMouseUp:BitmapData = toBitmapData(_instance.art);
 			
-			assertTrue("returned art after mouseDown, mouseMove, then mouseUp isn't empty", hasContent(bmdAfterMouseUp));
-			assertFalse("art while drawing and art after drawn aren't the same", haveIdenticalBitmapData(bmdBeforeMouseUp, bmdAfterMouseUp));
+			assertFalse(areIdentical(bmdBeforeMouseUp, bmdAfterMouseUp));
+			assertTrue(hasContent(_instance.art));
 		}
 		
 		private function toBitmapData(input:DisplayObject):BitmapData {
