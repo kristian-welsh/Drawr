@@ -6,7 +6,7 @@
 	
 	public class Canvas {
 		
-		private var _target:Sprite;
+		private var _target:DisplayObjectContainer;
 		private var _currentTool:ITool;
 		private var _fillColour:uint;
 		
@@ -26,9 +26,12 @@
 			_fillColour = value;
 		}
 		
-		public function Canvas(target:Sprite):void {
+		public function Canvas(target:DisplayObjectContainer, container:DisplayObjectContainer):void {
+			target.x = 55;
+			target.y = 10;
+			container.addChild(target);
+			target.addEventListener(MouseEvent.MOUSE_DOWN, onCanvasDown);
 			_target = target;
-			_target.addEventListener(MouseEvent.MOUSE_DOWN, onCanvasDown);
 		}
 		
 		private function onCanvasDown(me:MouseEvent):void {
