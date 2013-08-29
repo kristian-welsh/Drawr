@@ -1,60 +1,22 @@
-﻿package unittests{
+﻿package unittests {
 	import asunit.framework.TestSuite;
-	import unittests.canvas.CanvasTest;
-	import unittests.events.ToolbarEventTest;
 	import unittests.tools.*;
-	import unittests.toolbar.*;
-	
-	import flash.display.MovieClip;
-	import flash.display.Sprite;
-	import flash.utils.getQualifiedClassName;
 	
 	public class AllTests extends TestSuite {
 		public function AllTests() {
-			//Drawr Tests
-			addTest(new DrawrTest("testInitialisation"));
 			addTest(new DrawrTest("testOnToolbarSelect"));
 			addTest(new DrawrTest("testOnFillColourChange"));
 			
-			//Brush Tool Tests
-			addTest(new BrushToolTest("testInitialisation"));
-			addTest(new BrushToolTest("testMouseDown"));
-			addTest(new BrushToolTest("testMouseMove"));
-			addTest(new BrushToolTest("testMouseUp"));
-			addTest(new BrushToolTest("testGetArt"));
+			addTest(new BrushToolTest("should_have_art_after_mouseDown"));
+			addTest(new BrushToolTest("should_have_different_art_after_mouseMove_than_after_mouseDown"));
 			
-			//Oval Tool Tests
-			addTest(new OvalToolTest("testInitialisation"));
-			addTest(new OvalToolTest("testMouseDown"));
-			addTest(new OvalToolTest("testMouseMove"));
-			addTest(new OvalToolTest("testMouseUp"));
-			addTest(new OvalToolTest("testGetArt"));
+			addTest(new OvalToolTest("should_not_have_art_after_mouse_down_alone"));
+			addTest(new OvalToolTest("should_have_art_after_mouse_down_then_mouse_move"));
+			addTest(new OvalToolTest("should_have_different_art_after_mouse_move_than_after_mouse_down"));
 			
-			//Rectangle Tool Tests
-			addTest(new RectangleToolTest("testInitialisation"));
-			addTest(new RectangleToolTest("testMouseDown"));
-			addTest(new RectangleToolTest("testMouseMove"));
-			addTest(new RectangleToolTest("testMouseUp"));
-			addTest(new RectangleToolTest("testGetArt"));
-			
-			//Toolbar Button Tests
-			addTest(new ToolbarButtonTest("testInitialisation"));
-			addTest(new ToolbarButtonTest("testGetToolType"));
-			
-			//ToolType data Tests
-			addTest(new ToolTypeTest("testConsts"));
-			
-			//Toolbar Tests
-			addTest(new ToolbarTest("testInitialisation"));
-			
-			//ToolbarEvent Tests
-			addTest(new ToolbarEventTest("testInitialisation"));
-			addTest(new ToolbarEventTest("testToString"));
-			addTest(new ToolbarEventTest("testClone"));
-			addTest(new ToolbarEventTest("testGetType"));
-			
-			//Canvas Tests
-			addTest(new CanvasTest("testInitialisation"));
+			addTest(new RectangleToolTest("should_not_have_art_after_mouse_down_alone"));
+			addTest(new RectangleToolTest("should_have_art_after_mouse_down_then_mouse_move"));
+			addTest(new RectangleToolTest("should_have_different_art_after_mouse_move_than_after_mouse_down"));
 		}
 	}
 }
