@@ -1,9 +1,9 @@
 ﻿package toolbar {
-	import flash.events.EventDispatcher;
 	import flash.display.Sprite;
+	import flash.events.EventDispatcher;
 	import flash.events.MouseEvent;
 	
-	public class ToolbarButton extends EventDispatcher{
+	public class ToolbarButton extends EventDispatcher {
 		private var _target:Sprite;
 		private var _toolType:String;
 		public function ToolbarButton(target:Sprite, toolType:String):void {
@@ -17,7 +17,7 @@
 			dispatchEvent(me);
 		}
 		
-		public function get toolType():String{
+		public function get toolType():String {
 			return _toolType;
 		}
 	}
