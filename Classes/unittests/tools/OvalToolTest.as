@@ -13,7 +13,7 @@
 			super(testMethod);
 		}
 		
-		public function should_not_have_art_after_mouse_down_alone():void {
+		public function should_not_have_art_after_mouseDown_alone():void {
 			_instance.mouseDown(0, 0, 0x000000);
 			assertFalse(hasContent(_instance.art));
 		}
@@ -29,13 +29,13 @@
 			return input1.compare(input2) == 0;
 		}
 		
-		public function should_have_art_after_mouse_down_then_mouse_move():void {
+		public function should_have_art_after_mouseDown_then_mouseMove():void {
 			_instance.mouseDown(0, 0, 0x000000);
 			_instance.mouseMove(100, 100);
 			assertTrue(hasContent(_instance.art));
 		}
 		
-		public function should_have_different_art_after_mouse_move_than_after_mouse_down():void {
+		public function should_have_different_art_after_mouseMove_than_after_mouseDown():void {
 			_instance.mouseDown(0, 0, 0x000000);
 			_instance.mouseMove(100, 100);
 			

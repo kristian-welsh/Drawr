@@ -1,4 +1,4 @@
-package Classes.toolcolourpicker {
+package toolcolourpicker {
 	import fl.controls.ColorPicker;
 	import flash.display.DisplayObjectContainer;
 	

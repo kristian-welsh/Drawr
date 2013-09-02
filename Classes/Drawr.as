@@ -1,26 +1,25 @@
 ﻿package {
-	import canvas.Canvas;
-	import Classes.toolcolourpicker.ToolColourPicker;
+	import canvas.*;
 	import events.ToolbarEvent;
 	import fl.controls.ColorPicker;
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import toolbar.Toolbar;
-	import toolbar.ToolType;
+	import toolbar.*;
+	import toolcolourpicker.*;
 	import tools.*;
 	
 	[SWF(width="800",height="600",frameRate="60",backgroundColor="#FFFFFF")]
 	public class Drawr extends Sprite {
 		
-		private var _canvas:Canvas;
-		private var _toolbar:Toolbar;
-		private var _colourPicker:ToolColourPicker;
+		private var _canvas:ICanvas;
+		private var _toolbar:IToolbar;
+		private var _colourPicker:ColorPicker;
 		
-		public function get canvas():Canvas {
+		public function get canvas():ICanvas {
 			return _canvas;
 		}
 		
-		public function get toolbar():Toolbar {
+		public function get toolbar():IToolbar {
 			return _toolbar;
 		}
 		
@@ -28,32 +27,31 @@
 			return _colourPicker;
 		}
 		
-		public function Drawr():void {
-			_toolbar = new Toolbar(new Toolbar_mc(), this);
-			_canvas = new Canvas(new Canvas_mc(), this);
-			_colourPicker = new ToolColourPicker(this);
+		/**
+		 * @param	parameters
+		 * Contains options for the object's initialisation.
+		 *   canvas:ICanvas the object to control the use of tools, defaults to a new Canvas.
+		 *   toolbar:IToolbar the object to control the selection of tools, defaults to a new Toolbar.
+		 *   colourPicker:ColorPicker the object to control the selection of colours, defaults to a new ToolColourPicker.
+		 *   toolFactory:IToolFactory the factory to create new tools, defaults to ToolFactory.
+		 */
+		public function Drawr(parameters:Object = null):void {
+			if (parameters == null)
+				parameters = {};
+			
+			_canvas = parameters.canvas || new Canvas(new Canvas_mc(), this);
+			_toolbar = parameters.toolbar || new Toolbar(new Toolbar_mc(), this);
+			_colourPicker = parameters.colourPicker || new ToolColourPicker(this);
 			
 			_toolbar.addEventListener(ToolbarEvent.SELECT, onToolbarSelect);
 			_colourPicker.addEventListener(Event.CHANGE, onFillColourChange);
 		}
 		
-		public function onToolbarSelect(te:ToolbarEvent):void {
-			switch (te.toolType) {
-				case ToolType.RECTANGLE:
-					_canvas.currentTool = new RectangleTool();
-					break;
-				case ToolType.OVAL:
-					_canvas.currentTool = new OvalTool();
-					break;
-				case ToolType.BRUSH:
-					_canvas.currentTool = new BrushTool();
-					break;
-				default:
-					_canvas.currentTool = null;
-			}
+		private function onToolbarSelect(te:ToolbarEvent):void {
+			_canvas.currentTool = ToolFactory.makeTool(te.toolType);
 		}
 		
-		public function onFillColourChange(e:Event):void {
+		private function onFillColourChange(e:Event):void {
 			_canvas.fillColour = _colourPicker.selectedColor;
 		}
 	}

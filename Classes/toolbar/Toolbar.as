@@ -1,10 +1,11 @@
 ﻿package toolbar {
+	import Classes.toolbar.IToolbar;
 	import events.ToolbarEvent;
 	import flash.display.*;
 	import flash.events.*;
 	
 	/** @author Kristian Welsh */
-	public class Toolbar extends EventDispatcher {
+	public class Toolbar extends EventDispatcher implements IToolbar {
 		public function Toolbar(target:DisplayObjectContainer, container:DisplayObjectContainer):void {
 			var rect:ToolbarButton = new ToolbarButton(target.getChildByName("rectangle_mc") as Sprite, ToolType.RECTANGLE);
 			var oval:ToolbarButton = new ToolbarButton(target.getChildByName("oval_mc") as Sprite, ToolType.OVAL);
