@@ -1,10 +1,7 @@
 package tools {
 	import toolbar.ToolType;
-	import tools.BrushTool;
-	import tools.ITool;
-	import tools.NullTool;
-	import tools.OvalTool;
-	import tools.RectangleTool;
+	import tools.*;
+	import tools.shapes.*;
 	
 	/** @author Kristian Welsh */
 	public class ToolFactory {
@@ -16,6 +13,8 @@ package tools {
 					return new OvalTool();
 				case ToolType.BRUSH:
 					return new BrushTool();
+				case ToolType.TRIANGLE:
+					return new TriangleTool();
 				default:
 					return NullTool.nullTool;
 			}

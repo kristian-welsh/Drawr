@@ -2,6 +2,7 @@ package unittests.tools {
 	import asunit.framework.TestCase;
 	import toolbar.ToolType;
 	import tools.*;
+	import tools.shapes.*;
 	
 	/** @author Kristian Welsh */
 	public class ToolFactoryTest extends TestCase {

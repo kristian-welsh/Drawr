@@ -8,7 +8,7 @@ package toolcolourpicker {
 			super();
 			container.addChild(this);
 			this.x = 17;
-			this.y = 120;
+			this.y = 150;
 		}
 	}
 }

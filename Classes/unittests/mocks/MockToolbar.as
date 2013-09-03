@@ -1,4 +1,4 @@
-package unittests {
+package unittests.mocks {
 	import flash.events.EventDispatcher;
 	import toolbar.IToolbar;
 	
