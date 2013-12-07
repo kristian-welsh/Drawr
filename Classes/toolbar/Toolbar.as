@@ -7,6 +7,7 @@
 	/** @author Kristian Welsh */
 	public class Toolbar extends EventDispatcher implements IToolbar {
 		public function Toolbar(target:DisplayObjectContainer, container:DisplayObjectContainer):void {
+			//TODO: there is massive coupling the the .fla file, refactor
 			var rectangle:ToolbarButton = new ToolbarButton(target.getChildByName("rectangle_mc") as Sprite, ToolType.RECTANGLE);
 			var oval:ToolbarButton = new ToolbarButton(target.getChildByName("oval_mc") as Sprite, ToolType.OVAL);
 			var brush:ToolbarButton = new ToolbarButton(target.getChildByName("brush_mc") as Sprite, ToolType.BRUSH);

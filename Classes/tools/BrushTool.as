@@ -1,4 +1,5 @@
 ﻿package tools {
+	import Classes.BitmapDrawer;
 	import flash.display.*;
 	import flash.geom.*;
 	
@@ -8,10 +9,12 @@
 		private var _brushStroke:Shape;
 		private var _curMousePos:Point;
 		private var _lastMousePos:Point;
+		private var _artDrawer:BitmapDrawer;
 		
 		public function BrushTool() {
 			_bitmapData = new BitmapData(500, 500, true, 0x00000000);
 			_art = new Bitmap(_bitmapData);
+			_artDrawer = new BitmapDrawer(_bitmapData, _brushStroke);
 		}
 		
 		public function mouseDown(x:Number, y:Number, fillColor:uint):void {
@@ -34,19 +37,22 @@
 			drawArrayPoints(getInterpolatedLinePoints(_curMousePos, _lastMousePos))
 		}
 		
+		private function updatePositionTrackers(x:Number, y:Number):void {
+			_lastMousePos = _curMousePos;
+			_curMousePos = new Point(x, y);
+		}
+		
 		private function drawArrayPoints(points:Array):void {
 			for each(var point:Array in points)
 				drawAt(point[0], point[1]);
 		}
 		
 		private function drawAt(x:Number, y:Number):void {
-			var m:Matrix = new Matrix;
-			m.translate(x - 10, y - 10);
-			_bitmapData.draw(_brushStroke, m);
+			_artDrawer.drawShape(new Point(x, y), _brushStroke);
 		}
 		
 		private function getInterpolatedLinePoints(startPoint:Point, endPoint:Point):Array {
-			var returnMe:Array = [];
+			var linePoints:Array = [];
 			
 			var xDif:Number = startPoint.x - endPoint.x;
 			var yDif:Number = startPoint.y - endPoint.y;
@@ -55,80 +61,75 @@
 			var yAbs:Number = Math.abs(yDif);
 			var pythagDist:Number = Math.sqrt(xAbs * xAbs + yAbs * yAbs);
 			
-			returnMe.push([startPoint.x, startPoint.y]);
+			linePoints.push([startPoint.x, startPoint.y]);
 			// TODO: refactor from brute force into an algorithm
 			if (pythagDist > 1028) {
-				returnMe.push([endPoint.x + xDif * 10 / 11, endPoint.y + yDif * 10 / 11]);
-				returnMe.push([endPoint.x + xDif * 9 / 11, endPoint.y + yDif * 9 / 11]);
-				returnMe.push([endPoint.x + xDif * 8 / 11, endPoint.y + yDif * 8 / 11]);
-				returnMe.push([endPoint.x + xDif * 7 / 11, endPoint.y + yDif * 7 / 11]);
-				returnMe.push([endPoint.x + xDif * 6 / 11, endPoint.y + yDif * 6 / 11]);
-				returnMe.push([endPoint.x + xDif * 5 / 11, endPoint.y + yDif * 5 / 11]);
-				returnMe.push([endPoint.x + xDif * 4 / 11, endPoint.y + yDif * 4 / 11]);
-				returnMe.push([endPoint.x + xDif * 3 / 11, endPoint.y + yDif * 3 / 11]);
-				returnMe.push([endPoint.x + xDif * 2 / 11, endPoint.y + yDif * 2 / 11]);
-				returnMe.push([endPoint.x + xDif * 1 / 11, endPoint.y + yDif * 1 / 11]);
+				linePoints.push([endPoint.x + xDif * 10 / 11, endPoint.y + yDif * 10 / 11]);
+				linePoints.push([endPoint.x + xDif * 9 / 11, endPoint.y + yDif * 9 / 11]);
+				linePoints.push([endPoint.x + xDif * 8 / 11, endPoint.y + yDif * 8 / 11]);
+				linePoints.push([endPoint.x + xDif * 7 / 11, endPoint.y + yDif * 7 / 11]);
+				linePoints.push([endPoint.x + xDif * 6 / 11, endPoint.y + yDif * 6 / 11]);
+				linePoints.push([endPoint.x + xDif * 5 / 11, endPoint.y + yDif * 5 / 11]);
+				linePoints.push([endPoint.x + xDif * 4 / 11, endPoint.y + yDif * 4 / 11]);
+				linePoints.push([endPoint.x + xDif * 3 / 11, endPoint.y + yDif * 3 / 11]);
+				linePoints.push([endPoint.x + xDif * 2 / 11, endPoint.y + yDif * 2 / 11]);
+				linePoints.push([endPoint.x + xDif * 1 / 11, endPoint.y + yDif * 1 / 11]);
 			} else if (pythagDist > 516) {
-				returnMe.push([endPoint.x + xDif * 9 / 10, endPoint.y + yDif * 9 / 10]);
-				returnMe.push([endPoint.x + xDif * 8 / 10, endPoint.y + yDif * 8 / 10]);
-				returnMe.push([endPoint.x + xDif * 7 / 10, endPoint.y + yDif * 7 / 10]);
-				returnMe.push([endPoint.x + xDif * 6 / 10, endPoint.y + yDif * 6 / 10]);
-				returnMe.push([endPoint.x + xDif * 5 / 10, endPoint.y + yDif * 5 / 10]);
-				returnMe.push([endPoint.x + xDif * 4 / 10, endPoint.y + yDif * 4 / 10]);
-				returnMe.push([endPoint.x + xDif * 3 / 10, endPoint.y + yDif * 3 / 10]);
-				returnMe.push([endPoint.x + xDif * 2 / 10, endPoint.y + yDif * 2 / 10]);
-				returnMe.push([endPoint.x + xDif * 1 / 10, endPoint.y + yDif * 1 / 10]);
+				linePoints.push([endPoint.x + xDif * 9 / 10, endPoint.y + yDif * 9 / 10]);
+				linePoints.push([endPoint.x + xDif * 8 / 10, endPoint.y + yDif * 8 / 10]);
+				linePoints.push([endPoint.x + xDif * 7 / 10, endPoint.y + yDif * 7 / 10]);
+				linePoints.push([endPoint.x + xDif * 6 / 10, endPoint.y + yDif * 6 / 10]);
+				linePoints.push([endPoint.x + xDif * 5 / 10, endPoint.y + yDif * 5 / 10]);
+				linePoints.push([endPoint.x + xDif * 4 / 10, endPoint.y + yDif * 4 / 10]);
+				linePoints.push([endPoint.x + xDif * 3 / 10, endPoint.y + yDif * 3 / 10]);
+				linePoints.push([endPoint.x + xDif * 2 / 10, endPoint.y + yDif * 2 / 10]);
+				linePoints.push([endPoint.x + xDif * 1 / 10, endPoint.y + yDif * 1 / 10]);
 			} else if (pythagDist > 260) {
-				returnMe.push([endPoint.x + xDif * 8 / 9, endPoint.y + yDif * 8 / 9]);
-				returnMe.push([endPoint.x + xDif * 7 / 9, endPoint.y + yDif * 7 / 9]);
-				returnMe.push([endPoint.x + xDif * 6 / 9, endPoint.y + yDif * 6 / 9]);
-				returnMe.push([endPoint.x + xDif * 5 / 9, endPoint.y + yDif * 5 / 9]);
-				returnMe.push([endPoint.x + xDif * 4 / 9, endPoint.y + yDif * 4 / 9]);
-				returnMe.push([endPoint.x + xDif * 3 / 9, endPoint.y + yDif * 3 / 9]);
-				returnMe.push([endPoint.x + xDif * 2 / 9, endPoint.y + yDif * 2 / 9]);
-				returnMe.push([endPoint.x + xDif * 1 / 9, endPoint.y + yDif * 1 / 9]);
+				linePoints.push([endPoint.x + xDif * 8 / 9, endPoint.y + yDif * 8 / 9]);
+				linePoints.push([endPoint.x + xDif * 7 / 9, endPoint.y + yDif * 7 / 9]);
+				linePoints.push([endPoint.x + xDif * 6 / 9, endPoint.y + yDif * 6 / 9]);
+				linePoints.push([endPoint.x + xDif * 5 / 9, endPoint.y + yDif * 5 / 9]);
+				linePoints.push([endPoint.x + xDif * 4 / 9, endPoint.y + yDif * 4 / 9]);
+				linePoints.push([endPoint.x + xDif * 3 / 9, endPoint.y + yDif * 3 / 9]);
+				linePoints.push([endPoint.x + xDif * 2 / 9, endPoint.y + yDif * 2 / 9]);
+				linePoints.push([endPoint.x + xDif * 1 / 9, endPoint.y + yDif * 1 / 9]);
 			} else if (pythagDist > 132) {
-				returnMe.push([endPoint.x + xDif * 7 / 8, endPoint.y + yDif * 7 / 8]);
-				returnMe.push([endPoint.x + xDif * 6 / 8, endPoint.y + yDif * 6 / 8]);
-				returnMe.push([endPoint.x + xDif * 5 / 8, endPoint.y + yDif * 5 / 8]);
-				returnMe.push([endPoint.x + xDif * 4 / 8, endPoint.y + yDif * 4 / 8]);
-				returnMe.push([endPoint.x + xDif * 3 / 8, endPoint.y + yDif * 3 / 8]);
-				returnMe.push([endPoint.x + xDif * 2 / 8, endPoint.y + yDif * 2 / 8]);
-				returnMe.push([endPoint.x + xDif * 1 / 8, endPoint.y + yDif * 1 / 8]);
+				linePoints.push([endPoint.x + xDif * 7 / 8, endPoint.y + yDif * 7 / 8]);
+				linePoints.push([endPoint.x + xDif * 6 / 8, endPoint.y + yDif * 6 / 8]);
+				linePoints.push([endPoint.x + xDif * 5 / 8, endPoint.y + yDif * 5 / 8]);
+				linePoints.push([endPoint.x + xDif * 4 / 8, endPoint.y + yDif * 4 / 8]);
+				linePoints.push([endPoint.x + xDif * 3 / 8, endPoint.y + yDif * 3 / 8]);
+				linePoints.push([endPoint.x + xDif * 2 / 8, endPoint.y + yDif * 2 / 8]);
+				linePoints.push([endPoint.x + xDif * 1 / 8, endPoint.y + yDif * 1 / 8]);
 			} else if (pythagDist > 68) {
-				returnMe.push([endPoint.x + xDif * 6 / 7, endPoint.y + yDif * 6 / 7]);
-				returnMe.push([endPoint.x + xDif * 5 / 7, endPoint.y + yDif * 5 / 7]);
-				returnMe.push([endPoint.x + xDif * 4 / 7, endPoint.y + yDif * 4 / 7]);
-				returnMe.push([endPoint.x + xDif * 3 / 7, endPoint.y + yDif * 3 / 7]);
-				returnMe.push([endPoint.x + xDif * 2 / 7, endPoint.y + yDif * 2 / 7]);
-				returnMe.push([endPoint.x + xDif * 1 / 7, endPoint.y + yDif * 1 / 7]);
+				linePoints.push([endPoint.x + xDif * 6 / 7, endPoint.y + yDif * 6 / 7]);
+				linePoints.push([endPoint.x + xDif * 5 / 7, endPoint.y + yDif * 5 / 7]);
+				linePoints.push([endPoint.x + xDif * 4 / 7, endPoint.y + yDif * 4 / 7]);
+				linePoints.push([endPoint.x + xDif * 3 / 7, endPoint.y + yDif * 3 / 7]);
+				linePoints.push([endPoint.x + xDif * 2 / 7, endPoint.y + yDif * 2 / 7]);
+				linePoints.push([endPoint.x + xDif * 1 / 7, endPoint.y + yDif * 1 / 7]);
 			} else if (pythagDist > 36) {
-				returnMe.push([endPoint.x + xDif * 5 / 6, endPoint.y + yDif * 5 / 6]);
-				returnMe.push([endPoint.x + xDif * 4 / 6, endPoint.y + yDif * 4 / 6]);
-				returnMe.push([endPoint.x + xDif * 3 / 6, endPoint.y + yDif * 3 / 6]);
-				returnMe.push([endPoint.x + xDif * 2 / 6, endPoint.y + yDif * 2 / 6]);
-				returnMe.push([endPoint.x + xDif * 1 / 6, endPoint.y + yDif * 1 / 6]);
+				linePoints.push([endPoint.x + xDif * 5 / 6, endPoint.y + yDif * 5 / 6]);
+				linePoints.push([endPoint.x + xDif * 4 / 6, endPoint.y + yDif * 4 / 6]);
+				linePoints.push([endPoint.x + xDif * 3 / 6, endPoint.y + yDif * 3 / 6]);
+				linePoints.push([endPoint.x + xDif * 2 / 6, endPoint.y + yDif * 2 / 6]);
+				linePoints.push([endPoint.x + xDif * 1 / 6, endPoint.y + yDif * 1 / 6]);
 			} else if (pythagDist > 20) {
-				returnMe.push([endPoint.x + xDif * 4 / 5, endPoint.y + yDif * 4 / 5]);
-				returnMe.push([endPoint.x + xDif * 3 / 5, endPoint.y + yDif * 3 / 5]);
-				returnMe.push([endPoint.x + xDif * 2 / 5, endPoint.y + yDif * 2 / 5]);
-				returnMe.push([endPoint.x + xDif * 1 / 5, endPoint.y + yDif * 1 / 5]);
+				linePoints.push([endPoint.x + xDif * 4 / 5, endPoint.y + yDif * 4 / 5]);
+				linePoints.push([endPoint.x + xDif * 3 / 5, endPoint.y + yDif * 3 / 5]);
+				linePoints.push([endPoint.x + xDif * 2 / 5, endPoint.y + yDif * 2 / 5]);
+				linePoints.push([endPoint.x + xDif * 1 / 5, endPoint.y + yDif * 1 / 5]);
 			} else if (pythagDist > 12) {
-				returnMe.push([endPoint.x + xDif * 3 / 4, endPoint.y + yDif * 3 / 4]);
-				returnMe.push([endPoint.x + xDif * 2 / 4, endPoint.y + yDif * 2 / 4]);
-				returnMe.push([endPoint.x + xDif * 1 / 4, endPoint.y + yDif * 1 / 4]);
+				linePoints.push([endPoint.x + xDif * 3 / 4, endPoint.y + yDif * 3 / 4]);
+				linePoints.push([endPoint.x + xDif * 2 / 4, endPoint.y + yDif * 2 / 4]);
+				linePoints.push([endPoint.x + xDif * 1 / 4, endPoint.y + yDif * 1 / 4]);
 			} else if (pythagDist > 8) {
-				returnMe.push([endPoint.x + xDif * 2 / 3, endPoint.y + yDif * 2 / 3]);
-				returnMe.push([endPoint.x + xDif * 1 / 3, endPoint.y + yDif * 1 / 3]);
+				linePoints.push([endPoint.x + xDif * 2 / 3, endPoint.y + yDif * 2 / 3]);
+				linePoints.push([endPoint.x + xDif * 1 / 3, endPoint.y + yDif * 1 / 3]);
 			} else if (pythagDist > 6) {
-				returnMe.push([endPoint.x + xDif * 1 / 2, endPoint.y + yDif * 1 / 2]);
+				linePoints.push([endPoint.x + xDif * 1 / 2, endPoint.y + yDif * 1 / 2]);
 			}
-			return returnMe;
-		}
-		
-		private function updatePositionTrackers(x:Number, y:Number):void {
-			_lastMousePos = _curMousePos;
-			_curMousePos = new Point(x, y);
+			return linePoints;
 		}
 		
 		public function mouseUp(x:Number, y:Number):void {

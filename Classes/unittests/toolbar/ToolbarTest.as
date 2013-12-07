@@ -25,7 +25,6 @@ package unittests.toolbar {
 		}
 		
 		protected override function setUp():void {
-			// TODO: long complicated out of class setup is a code smell for hidden dependancies, refactor the class.
 			_rectangleButton = new Sprite();
 			_rectangleButton.name = "rectangle_mc";
 			_ovalButton = new Sprite();

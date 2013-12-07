@@ -10,7 +10,6 @@
 	
 	[SWF(width="800",height="600",frameRate="60",backgroundColor="#FFFFFF")]
 	public class Drawr extends Sprite {
-		
 		private var _canvas:ICanvas;
 		private var _toolbar:IToolbar;
 		private var _colourPicker:ColorPicker;

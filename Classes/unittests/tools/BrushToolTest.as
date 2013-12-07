@@ -16,10 +16,6 @@
 			assertInstanceHasContent();
 		}
 		
-		private function assertInstanceHasContent():void {
-			assertTrue(hasContent(_instance.art));
-		}
-		
 		public function should_have_different_art_after_mouseMove_than_after_mouseDown():void {
 			_instance.mouseDown(0, 0, 0x000000);
 			var artBeforeMove:BitmapData = toBitmapData(_instance.art);
@@ -27,6 +23,10 @@
 			var artAfterMove:BitmapData = toBitmapData(_instance.art);
 			
 			assertFalse(areIdentical(artBeforeMove, artAfterMove));
+			assertTrue(hasContent(_instance.art));
+		}
+		
+		private function assertInstanceHasContent():void {
 			assertTrue(hasContent(_instance.art));
 		}
 		
