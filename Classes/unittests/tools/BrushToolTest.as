@@ -1,14 +1,22 @@
 ﻿package unittests.tools {
 	import asunit.framework.TestCase;
+	import drawers.ArtDrawer;
+	import drawers.BitmapDrawer;
 	import flash.display.*;
 	import flash.geom.*;
 	import tools.BrushTool;
 	
 	public class BrushToolTest extends TestCase {
-		private var _instance:BrushTool = new BrushTool();
+		private var _instance:BrushTool;
 		
+		// note to self, i have a seam now, use it.
 		public function BrushToolTest(testMethod:String):void {
 			super(testMethod);
+		}
+		
+		protected override function setUp():void {
+			var drawer:ArtDrawer = new BitmapDrawer();
+			_instance = new BrushTool();
 		}
 		
 		public function should_have_art_after_mouseDown():void {

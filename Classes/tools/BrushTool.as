@@ -1,35 +1,27 @@
 ﻿package tools {
-	import Classes.BitmapDrawer;
+	import drawers.ArtDrawer;
+	import drawers.BitmapDrawer;
 	import flash.display.*;
 	import flash.geom.*;
 	
 	public class BrushTool implements ITool {
-		private var _bitmapData:BitmapData;
-		private var _art:Bitmap;
-		private var _brushStroke:Shape;
 		private var _curMousePos:Point;
 		private var _lastMousePos:Point;
-		private var _artDrawer:BitmapDrawer;
+		private var _artDrawer:ArtDrawer;
 		
-		public function BrushTool() {
-			_bitmapData = new BitmapData(500, 500, true, 0x00000000);
-			_art = new Bitmap(_bitmapData);
-			_artDrawer = new BitmapDrawer(_bitmapData, _brushStroke);
+		public function BrushTool(artDrawer:ArtDrawer = null) {
+			_artDrawer = artDrawer || new BitmapDrawer();
 		}
 		
 		public function mouseDown(x:Number, y:Number, fillColor:uint):void {
-			createBrush(fillColor);
+			_artDrawer.createBrush(fillColor);
 			drawAt(x, y);
 			_curMousePos = new Point(x, y);
 			_lastMousePos = new Point(x, y);
 		}
 		
-		private function createBrush(fillColor:uint):void {
-			_brushStroke = new Shape();
-			var gradBox:Matrix = new Matrix();
-			gradBox.createGradientBox(20, 20, 0, 0, 0);
-			_brushStroke.graphics.beginGradientFill(GradientType.RADIAL, [fillColor, fillColor], [1, 0], [127, 255], gradBox);
-			_brushStroke.graphics.drawCircle(10, 10, 10);
+		private function drawAt(x:Number, y:Number):void {
+			_artDrawer.drawShape(new Point(x, y));
 		}
 		
 		public function mouseMove(x:Number, y:Number):void {
@@ -47,10 +39,7 @@
 				drawAt(point[0], point[1]);
 		}
 		
-		private function drawAt(x:Number, y:Number):void {
-			_artDrawer.drawShape(new Point(x, y), _brushStroke);
-		}
-		
+		// convert from an array to a vector of points
 		private function getInterpolatedLinePoints(startPoint:Point, endPoint:Point):Array {
 			var linePoints:Array = [];
 			
@@ -137,7 +126,7 @@
 		}
 		
 		public function get art():DisplayObject {
-			return _art;
+			return _artDrawer.art;
 		}
 	}
 }

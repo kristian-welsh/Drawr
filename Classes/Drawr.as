@@ -28,7 +28,7 @@
 		
 		/**
 		 * @param	parameters
-		 * Contains options for the object's initialisation.
+		 * Contains options for the object's initialisation. parameters default to none so that i can test it indevidually, and attach it as the document class
 		 *   canvas:ICanvas the object to control the use of tools, defaults to a new Canvas.
 		 *   toolbar:IToolbar the object to control the selection of tools, defaults to a new Toolbar.
 		 *   colourPicker:ColorPicker the object to control the selection of colours, defaults to a new ToolColourPicker.

@@ -4,7 +4,6 @@ package unittests.tools {
 	import tools.*;
 	import tools.shapes.*;
 	
-	/** @author Kristian Welsh */
 	public class ToolFactoryTest extends TestCase {
 		public function ToolFactoryTest(testMethod:String):void {
 			super(testMethod);

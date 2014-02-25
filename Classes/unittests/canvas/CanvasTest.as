@@ -5,7 +5,6 @@ package unittests.canvas {
 	import flash.display.*;
 	import unittests.mocks.MockTool;
 	
-	/** @author Kristian Welsh */
 	public class CanvasTest extends TestCase {
 		static private const TEST_COLOUR:Number = 0xFF0000;
 		

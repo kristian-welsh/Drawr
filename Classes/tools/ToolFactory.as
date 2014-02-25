@@ -3,7 +3,6 @@ package tools {
 	import tools.*;
 	import tools.shapes.*;
 	
-	/** @author Kristian Welsh */
 	public class ToolFactory {
 		public static function makeTool(toolType:String):ITool {
 			switch (toolType) {
