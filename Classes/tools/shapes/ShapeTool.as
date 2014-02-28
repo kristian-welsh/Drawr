@@ -1,16 +1,11 @@
-﻿package tools {
+package tools.shapes {
 	import flash.display.*;
+	import tools.ITool
 	
-	public class RectangleTool implements ITool {
-		
-		//TODO: refactor rectangle and oval to extend a shape class
-		//TODO: add the ability fo use the shift key with all shapes to alter it like flash does
-		
-		private var _art:Shape;
-		private var _fillColour:uint;
-		
-		public function RectangleTool() {
-		}
+	/** @author Kristian Welsh */
+	public class ShapeTool implements ITool {
+		protected var _art:Shape = new Shape();
+		private var _fillColour:uint = 0x000000;
 		
 		public function mouseDown(x:Number, y:Number, fillColour:uint):void {
 			_art = new Shape();
@@ -20,19 +15,23 @@
 		}
 		
 		public function mouseMove(x:Number, y:Number):void {
-			lineTempDraw(x, y)
+			lineOnlyDraw(x, y)
 		}
 		
-		private function lineTempDraw(x:Number, y:Number):void {
+		private function lineOnlyDraw(x:Number, y:Number):void {
 			_art.graphics.clear();
 			_art.graphics.lineStyle(0.1, _fillColour, 1);
-			_art.graphics.drawRect(0, 0, x - _art.x, y - _art.y);
+			drawShape(0, 0, x - _art.x, y - _art.y);
+		}
+		
+		protected function drawShape(x1:Number, y1:Number, x2:Number, y2:Number):void {
+			throw new Error("This function should be overriden");
 		}
 		
 		private function fillDraw(x:Number, y:Number):void {
 			_art.graphics.clear();
 			_art.graphics.beginFill(_fillColour, 1);
-			_art.graphics.drawRect(0, 0, x - _art.x, y - _art.y);
+			drawShape(0, 0, x - _art.x, y - _art.y);
 		}
 		
 		public function mouseUp(x:Number, y:Number):void {

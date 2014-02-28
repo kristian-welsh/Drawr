@@ -1,12 +1,10 @@
 ﻿package toolbar {
-	import flash.display.Sprite;
-	import flash.events.EventDispatcher;
-	import flash.events.MouseEvent;
+	import flash.events.*;
 	
 	public class ToolbarButton extends EventDispatcher {
-		private var _target:Sprite;
+		private var _target:EventDispatcher;
 		private var _toolType:String;
-		public function ToolbarButton(target:Sprite, toolType:String):void {
+		public function ToolbarButton(target:EventDispatcher, toolType:String):void {
 			_target = target;
 			_toolType = toolType;
 			

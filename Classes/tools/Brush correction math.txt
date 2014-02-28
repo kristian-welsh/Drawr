@@ -20,5 +20,3 @@ value is 4+ binary value of nth digit
 2448
 4896
 9792
-
-add a null tool object

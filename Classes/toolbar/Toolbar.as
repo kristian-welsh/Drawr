@@ -1,23 +1,30 @@
 ﻿package toolbar {
+	import Classes.toolbar.IToolbar;
 	import events.ToolbarEvent;
 	import flash.display.*;
 	import flash.events.*;
 	
-	public class Toolbar extends EventDispatcher {
-		private var _target:Sprite;
-		public function Toolbar(target:Sprite):void {
-			_target = target;
-			var rect:ToolbarButton = new ToolbarButton(_target.getChildByName("rectangle_mc") as Sprite, ToolType.RECTANGLE);
-			var oval:ToolbarButton = new ToolbarButton(_target.getChildByName("oval_mc") as Sprite, ToolType.OVAL);
-			var brush:ToolbarButton = new ToolbarButton(_target.getChildByName("brush_mc") as Sprite, ToolType.BRUSH);
+	/** @author Kristian Welsh */
+	public class Toolbar extends EventDispatcher implements IToolbar {
+		public function Toolbar(target:DisplayObjectContainer, container:DisplayObjectContainer):void {
+			//TODO: there is massive coupling the the .fla file, refactor
+			var rectangle:ToolbarButton = new ToolbarButton(target.getChildByName("rectangle_mc") as Sprite, ToolType.RECTANGLE);
+			var oval:ToolbarButton = new ToolbarButton(target.getChildByName("oval_mc") as Sprite, ToolType.OVAL);
+			var brush:ToolbarButton = new ToolbarButton(target.getChildByName("brush_mc") as Sprite, ToolType.BRUSH);
+			var triangle:ToolbarButton = new ToolbarButton(target.getChildByName("triangle_mc") as Sprite, ToolType.TRIANGLE);
 			
-			rect.addEventListener(MouseEvent.CLICK, onToolClick);
+			rectangle.addEventListener(MouseEvent.CLICK, onToolClick);
 			oval.addEventListener(MouseEvent.CLICK, onToolClick);
 			brush.addEventListener(MouseEvent.CLICK, onToolClick);
+			triangle.addEventListener(MouseEvent.CLICK, onToolClick);
+			
+			container.addChild(target);
+			target.x = 12;
+			target.y = 12;
 		}
 		
-		private function onToolClick(me:MouseEvent):void {
-			dispatchEvent(new ToolbarEvent(ToolbarEvent.SELECT, me.target.toolType));
+		private function onToolClick(event:MouseEvent):void {
+			dispatchEvent(new ToolbarEvent(ToolbarEvent.SELECT, event.target.toolType));
 		}
 	}
 }

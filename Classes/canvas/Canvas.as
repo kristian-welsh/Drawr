@@ -1,13 +1,13 @@
 ﻿package canvas {
-	import flash.display.*;
-	import flash.events.*;
-	import flash.geom.*;
+	import flash.display.DisplayObjectContainer;
+	import flash.events.MouseEvent;
 	import tools.ITool;
+	import tools.NullTool;
 	
-	public class Canvas {
-		
-		private var _target:Sprite;
-		private var _currentTool:ITool;
+	public class Canvas implements ICanvas {
+		private var _target:DisplayObjectContainer;
+		private var _container:DisplayObjectContainer;
+		private var _currentTool:ITool = NullTool.nullTool;
 		private var _fillColour:uint;
 		
 		public function get currentTool():ITool {
@@ -26,30 +26,38 @@
 			_fillColour = value;
 		}
 		
-		public function Canvas(target:Sprite):void {
+		public function Canvas(target:DisplayObjectContainer, container:DisplayObjectContainer):void {
+			target.x = 55;
+			target.y = 10;
+			container.addChild(target);
+			target.addEventListener(MouseEvent.MOUSE_DOWN, onCanvasDown);
 			_target = target;
-			_target.addEventListener(MouseEvent.MOUSE_DOWN, onCanvasDown);
+			_container = container;
 		}
 		
-		private function onCanvasDown(me:MouseEvent):void {
-			if (!_currentTool)
-				return;
-			_target.stage.addEventListener(MouseEvent.MOUSE_MOVE, onCanvasMove);
-			_target.stage.addEventListener(MouseEvent.MOUSE_UP, onCanvasUp);
+		private function onCanvasDown(event:MouseEvent):void {
+			addDrawingListeners();
 			_currentTool.mouseDown(_target.mouseX, _target.mouseY, _fillColour);
 			_target.addChild(_currentTool.art);
 		}
 		
-		private function onCanvasMove(me:MouseEvent):void {
-			var newX:Number = _target.mouseX;
-			var newY:Number = _target.mouseY;
-			_currentTool.mouseMove(newX, newY);
+		private function addDrawingListeners():void {
+			_container.addEventListener(MouseEvent.MOUSE_MOVE, onCanvasMove);
+			_container.addEventListener(MouseEvent.MOUSE_UP, onCanvasUp);
 		}
 		
-		private function onCanvasUp(me:MouseEvent):void {
-			_target.stage.removeEventListener(MouseEvent.MOUSE_MOVE, onCanvasMove);
-			_target.stage.removeEventListener(MouseEvent.MOUSE_UP, onCanvasUp);
+		private function onCanvasMove(event:MouseEvent):void {
+			_currentTool.mouseMove(_target.mouseX, _target.mouseY);
+		}
+		
+		private function onCanvasUp(event:MouseEvent):void {
+			removeDrawingListeners();
 			_currentTool.mouseUp(_target.mouseX, _target.mouseY);
+		}
+		
+		private function removeDrawingListeners():void {
+			_container.removeEventListener(MouseEvent.MOUSE_MOVE, onCanvasMove);
+			_container.removeEventListener(MouseEvent.MOUSE_UP, onCanvasUp);
 		}
 	}
 }
